@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: ats_db
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  queue:
+    image: redis:7-alpine
+    container_name: ats_queue
+    restart: always
+    ports:
+      - "6379:6379"
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ats_api
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - queue
+    ports:
+      - "3000:3000"
+    command: ["npm", "run", "dev"]
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ats_worker
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - queue
+      - db
+    volumes:
+      - ./mock_emails.log:/app/mock_emails.log
+    command: ["npm", "run", "worker"]
+
+volumes:
+  db-data:

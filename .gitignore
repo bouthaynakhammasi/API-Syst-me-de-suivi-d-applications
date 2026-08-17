@@ -1,0 +1,58 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Build output
+dist/
+build/
+coverage/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Application logs
+mock_emails.log
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# TypeORM
+ormconfig.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE / Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# TypeScript
+*.tsbuildinfo
+
+# Temporary files
+tmp/
+temp/
+
+# Docker overrides
+docker-compose.override.yml
+
+# Test artifacts
+.nyc_output/
+.jest/
+
+# Secrets / certificates
+*.pem
+*.key
+*.crt
